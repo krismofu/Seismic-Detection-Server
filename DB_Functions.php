@@ -38,11 +38,24 @@ class DB_Functions {
     query all data
     */
     public function queryAll(){
-    
-    	 $result = mysql_query("SELECT * FROM records");
+        $json = array();
+    	$result = mysql_query("SELECT * FROM records");
 	
-         return $result;
-      
+        while ($row = mysql_fetch_assoc($result)) {
+            //print_r($row);
+            $json[$row['device_id']][] = array(
+                'timestamp' => '2014-10-27 01:36:33',
+                'x' => $row['delta_x'],
+                'y' => $row['delta_y'],
+                'z' => $row['delta_Z']
+            ); 
+        }
+
+        return $json;
+    }
+
+    public function getUpdate() {
+
     }
 }
 ?>

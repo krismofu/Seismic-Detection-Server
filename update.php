@@ -3,17 +3,14 @@
 	header('Content-Type: application/json');
 	$data = [];
 
-	if(isset($_GET['offset'])) {
-		require_once('DB_Functions.php');
+	require_once('DB_Functions.php');
 
-		$db = new DB_Functions();
+	$db = new DB_Functions();
 
-		$data['data'] = $db->queryAll();
-		$data['count'] = count($data['data']);
-	} 
-	else {		
-		array_push($data, array('error' => 'no offset')); 
-	}
+	$result = $db->getUpdate();
+
+	$data['data'] = $db->getUpdate();
+	$data['count'] = count($data['data']);
 
 	echo json_encode($data);
 ?>

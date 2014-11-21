@@ -5,8 +5,6 @@
  *
  * Each request will be identified by TAG
  * Response will be JSON data
- 
-  /**
  * check for POST request
  */
 if (isset($_POST['tag']) && $_POST['tag'] != '') {
@@ -23,9 +21,11 @@ if (isset($_POST['tag']) && $_POST['tag'] != '') {
     // check for tag type
     if ($tag == 'insert') {
  
-        $user = $db->tambahData($_POST['deviceId'], $_POST['x'], $_POST['y'], $_POST['z']);
+        $user = $db->tambahData($_POST['deviceId'], $_POST['value'], 0, 0);
+        //$user = $db->tambahData($_POST['deviceId'], $_POST['x'], $_POST['y'], $_POST['z']);
         if ($user != false) {
-            echo json_encode($response);
+            $response["alert"] = $db->isGempa();
+            echo json_encode(['response' => $response]);
         } else {
             $response["success"] = 1;
             echo json_encode($response);
@@ -41,4 +41,5 @@ if (isset($_POST['tag']) && $_POST['tag'] != '') {
     $response["error"] = 343;
     echo json_encode($response);
 }
+die();
 ?>

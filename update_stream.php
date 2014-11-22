@@ -1,13 +1,17 @@
 <?php
-	
+	require_once('DB_Functions.php');
+	$db = new DB_Functions();
+	$result = $db->getUpdate();
+
+	$data = array();
+
+	foreach ($result as $key => $value) {
+		$data[] = $value;
+	}
+
 	$json = array(
-		'n' => 4,
-		'data' => array(
-			1 => 0,
-			2 => 0,
-			3 => 0,
-			4 => 0
-		)
+		'n' => count($result),
+		'data' => $data
 	);
 	echo json_encode($json);
 

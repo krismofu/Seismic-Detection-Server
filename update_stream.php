@@ -6,12 +6,16 @@
 	$data = array();
 
 	foreach ($result as $key => $value) {
-		$data[] = $value;
+		$data[] = [
+			'device' => $key,
+			'scale' => $value
+		];
 	}
 
 	$json = array(
 		'n' => count($result),
-		'data' => $data
+		'data' => $data,
+		'alert' => $db->isGempa()
 	);
 	echo json_encode($json);
 

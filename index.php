@@ -3,6 +3,7 @@
 
     $db = new DB_Functions();
     $result = $db->getUpdate();
+    $threshold = $db->getThreshold();
 
     $data = array();
     $date = new DateTime();
@@ -107,16 +108,17 @@
                                             if alert != false
                                             show notifications
                                             */
-                                            if(raw.alert != "") {
+                                            if(raw.alert == true) {
                                                 console.log("red alert");
                                                 doNotif(raw, series.length);
                                             }
 
+                                            console.log("alert = "+raw.alert);
+
                                             for (var i = 0; i < raw.data.length; i++ ) {
-                                                console.log("data = "+raw.data[i].scale);
+                                               // console.log("data = "+raw.data[i].scale);
                                                 series[i].addPoint([x, parseInt(raw.data[i].scale)], true, true);
                                             }
-
                                         });        
                                         
                                     }, 1000);
@@ -158,12 +160,35 @@
                    });
             });
         });
+
+        $(document).ready(function() {
+            $('#inpThreshold').change(function() {
+                var value = $(this).val();
+                $.ajax({
+                    type:'post',
+                    data:'value='+value,
+                    url:"../<?php echo basename(__DIR__); ?>/setThreshold.php",
+                    success:function(data){
+                       console.log(data);     
+                    }
+                });
+            });
+        });
+
         </script>
     </head>
     <body>
         <script src="../<?php echo basename(__DIR__); ?>/assets/js/highcharts.js"></script>
     
         <div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+        
+        <div id="configure">
+            <div>
+                <label for="inpThreshold">Threshold :</label>
+                <input id="inpThreshold" value="<?php echo $threshold; ?>" type="number" min="1">
+            </div>
+        </div>
+
         <audio id="soundFX">
             <source src="../<?php echo basename(__DIR__); ?>/assets/Alarm_-_Collision.ogg"></source>
             Update your browser to enjoy HTML5 audio!

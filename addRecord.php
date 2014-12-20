@@ -21,7 +21,7 @@ if (isset($_POST['tag']) && $_POST['tag'] != '') {
     // check for tag type
     if ($tag == 'insert') {
  
-        $user = $db->tambahData($_POST['deviceId'], $_POST['value'], 0, 0);
+        $user = $db->tambahData($_POST['deviceId'], $_POST['magnitude'], $_POST['x'], $_POST['y'], $_POST['z']);
         //$user = $db->tambahData($_POST['deviceId'], $_POST['x'], $_POST['y'], $_POST['z']);
         if ($user != false) {
             $response["alert"] = $db->isGempa();
